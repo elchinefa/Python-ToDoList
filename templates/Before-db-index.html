@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List Manager</title>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <form action="/add" method="POST">
+        <input type="text" name="task" placeholder="Enter task">
+        <input type="submit" value="Add">
+    </form>
+    <ul>
+        {% for task in tasks %}
+            {% if task.completed %}
+                <li><del>{{ task.task }}</del></li>
+            {% else %}
+                <li><a href="/mark_completed/{{ loop.index0 }}">{{ task.task }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>

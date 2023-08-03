@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    {% if user_id %}
+        <p>Welcome, {{ username }}!</p>
+        <a href="/logout">Logout</a>
+    {% endif %}
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.task }} - {% if task.completed %}Completed{% else %}<a href="/complete/{{ task.id }}">Mark as Completed</a>{% endif %}</li>
+        {% endfor %}
+    </ul>
+    <h2>Add Task:</h2>
+    <form action="/add-task" method="post">
+        <input type="text" name="task" required>
+        <button type="submit">Add Task</button>
+    </form>
+</body>
+</html>
