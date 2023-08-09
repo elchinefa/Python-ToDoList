@@ -12,12 +12,10 @@ database.init_db()
 
 
 
+def verify_password(input_password, stored_hashed_password):
+    hashed_input_password = hashlib.sha256(input_password.encode()).hexdigest()
+    return hashed_input_password == stored_hashed_password
 
-
-
-def verify_password(input_password, hashed_password):
-    
-    return input_password == hashed_password
 
 
 @app.route("/login", methods=["GET","POST"])

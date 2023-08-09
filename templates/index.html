@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Task Manager</title>
+    <title>Todo List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Task Manager</h1>
-    {% if user_id %}
-        <p>Welcome, {{ username }}!</p>
-        <a href="/logout">Logout</a>
-    {% endif %}
-    <ul>
-        {% for task in tasks %}
-            <li>{{ task.task }} - {% if task.completed %}Completed{% else %}<a href="/complete/{{ task.id }}">Mark as Completed</a>{% endif %}</li>
-        {% endfor %}
-    </ul>
-    <h2>Add Task:</h2>
-    <form action="/add-task" method="post">
-        <input type="text" name="task" required>
-        <button type="submit">Add Task</button>
-    </form>
+    <div class="header">
+        <h1>Welcome, {{ username }}</h1>
+        <a href="/logout" class="logout-btn">Log Out</a>
+    </div>
+    <div class="task-container">
+        <h2>Your Tasks</h2>
+        <ul>
+            {% for task in tasks %}
+                <li class="{% if task.completed %}completed{% endif %}">
+                    {{ task.task }}
+                    <a href="/complete/{{ task.id }}" class="complete-btn">Mark as Done</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <form action="/add-task" method="post">
+            <input type="text" name="task" placeholder="Add a new task" required>
+            <button type="submit" class="add-task-btn">Add Task</button>
+        </form>
+    </div>
 </body>
 </html>
