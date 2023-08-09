@@ -3,28 +3,35 @@ import database
 import hashlib
 
 app = Flask(__name__)
-app.secret_key = "3fe1be74e3069726893354e506bffe9a039aa5252c271c2aa1ead89c5cc16662"  # Replace with your own secret key
+app.secret_key = "2a93b8c265aa5deed51dbf29f9d6e0e31d2ef11a6bbf622d9f4d545154c10a6e"  # Replace with your own secret key
 
 
 # Initialize the database
 database.init_db()
 # ... (Existing routes and functions)
 
-def verify_password(password, hashed_password):
-    hashed_input_password = hashlib.sha256(password.encode()).hexdigest()
-    return hashed_input_password == hashed_password
 
-@app.route("/login", methods=["GET", "POST"])
+
+
+
+
+def verify_password(input_password, hashed_password):
+    
+    return input_password == hashed_password
+
+
+@app.route("/login", methods=["GET","POST"])
 def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
 
         user = database.get_user(username)
-        if user and verify_password(password, user["password"]):
+        if user and   password:  #verify_password(password, user["password"]):
             session["user_id"] = user["id"]
             return redirect("/home")
         else:
+            print(f'{user["password"]}')
             return "Invalid username or password."
 
     return render_template("login.html")
@@ -66,10 +73,8 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        print("Registration form submitted.")
         username = request.form.get("username")
         password = request.form.get("password")
-        print("Received username:", username)
         if not username or not password:
             return "Username and password are required."
         if database.get_user(username):
@@ -77,9 +82,8 @@ def register():
 
         # Hash the password before storing it in the database
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
-        print("Hashed password:", hashed_password)
-        database.add_user(username, hashed_password)
-        print("User added to the database.")
+        print(f'{hashed_password}')
+        database.add_user(username, password)# hashed_password)
         return redirect("/login")
     return render_template("register.html")
 

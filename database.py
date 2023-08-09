@@ -46,6 +46,8 @@ def get_user(username):
     cursor.execute("SELECT * FROM users WHERE username=?", (username,))
     user_data = cursor.fetchone()
     conn.close()
+    
+    print("User data retrieved:", user_data)
 
     if user_data:
         user = {
